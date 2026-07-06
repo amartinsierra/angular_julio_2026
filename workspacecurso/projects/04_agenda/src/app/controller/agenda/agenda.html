@@ -11,7 +11,7 @@
     <h2>Mi agenda</h2>
     <table border="1">
       <tr><th>Nombre</th><th>Teléfono</th><th>Edad</th></tr>
-      @for(let c of contactos;track c){
+      @for(c of contactos;track c){
         <tr >
           <td>{{c.nombre}}</td><td>{{c.telefono}}</td><td>{{c.edad}}</td>
         </tr>
