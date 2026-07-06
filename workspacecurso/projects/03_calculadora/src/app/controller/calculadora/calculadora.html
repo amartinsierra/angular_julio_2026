@@ -1,0 +1,22 @@
+<div class="container">
+  Número 1: <input type="number" [(ngModel)]="num1"><br>
+  Número 2: <input type="number" [(ngModel)]="num2"><br>
+  <input type="button" value="sumar" (click)="sumar()">
+  <input type="button" value="multiplicar" (click)="multiplicar()"><br>
+  <input type="button" value="histórico" (click)="historico()">
+  <br><br>
+  {{resultado}}
+  <div>
+    @if(listaresultados.length>0&&show){
+      <table >
+        <tr><th>Opración</th><th>Resultado</th></tr>
+        @for(r of listaresultados; track r) {
+          <tr>
+            <td>{{r.tipo}}</td>
+            <td>{{r.valor}}</td>
+          </tr>
+        }
+      </table>
+    }
+  </div>
+</div>
