@@ -23,6 +23,7 @@ export class BuscadorService {
 
   }
   tematicas():Observable<string[]>{
-    return of([...new Set(this.listado.map(r=>r.tematica))]);//eliminamos tematicas duplicadas
+    //return of([...new Set(this.listado.map(r=>r.tematica))]);//eliminamos tematicas duplicadas
+    return of(Array.from(new Set(this.listado.map(r=>r.tematica))));
   }
 }

@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class BuscadorComponent implements OnInit{
   tematicas:string[]=[];
-  tematica:string="--Tematica--";
+  tematica:string="--Tematica--";//tematica seleccionada
    //guardaremos los resultados de la búsqueda
   resultados:Resultado[]=[];
 
