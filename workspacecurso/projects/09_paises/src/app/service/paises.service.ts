@@ -8,6 +8,8 @@ import { Pais } from '../model/Pais';
   providedIn: 'root'
 })
 export class PaisesService {
+  /*paises:Pais[];
+  continentes:string[];*/
   url:string="https://countries.dev/countries?fields=name,region,population,flags"
   constructor(private http:HttpClient) { }
   getPaises():Observable<Pais[]>{
