@@ -27,7 +27,7 @@ export class AgendaService {
   //método que elimina el contacto cuyo teléfono se recibe  como parámetro
   eliminarContacto(telefono:string):Observable<void>{
       this.contactos=this.contactos.filter(c=>c.telefono!=telefono);
-      return of();
+      return of(void 0);
   }
 
 }

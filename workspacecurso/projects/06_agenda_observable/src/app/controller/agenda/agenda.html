@@ -7,11 +7,11 @@
   <br>
   <input type="button" value="Mostrar" (click)="mostrarTodos()">
   <br>
-  @if(show()){
+  @if(show){
     <h2>Mi agenda</h2>
     <table border="1">
       <tr><th>Nombre</th><th>Teléfono</th><th>Edad</th><th></th></tr>
-      @for(c of contactos();track c){
+      @for(c of contactos;track c){
         <tr >
           <td>{{c.nombre}}</td><td>{{c.telefono}}</td><td>{{c.edad}}</td>
           <td><input type="button" value="eliminar" (click)="eliminarContacto(c.telefono)"></td>

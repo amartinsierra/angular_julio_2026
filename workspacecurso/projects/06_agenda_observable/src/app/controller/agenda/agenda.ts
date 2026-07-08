@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { Contacto } from '../../model/Contacto';
 import { FormsModule } from '@angular/forms';
 import { AgendaService } from '../../service/agenda-service';
@@ -10,9 +10,9 @@ import { AgendaService } from '../../service/agenda-service';
   styleUrl: './agenda.css',
 })
 export class Agenda {
-  contactos=signal<Contacto[]>([]);
+  contactos:Contacto[];
   contacto:Contacto=new Contacto("","",0);
-  show=signal<boolean>(false);
+  show:boolean=false;
   constructor(private agendaService:AgendaService){
 
   }
@@ -31,9 +31,9 @@ export class Agenda {
 
   }
   mostrarTodos():void{
-    this.show.set(true);
+    this.show=true;
     this.agendaService.obtenerContactos()
-      .subscribe(data=>this.contactos.set(data));
+      .subscribe(data=>this.contactos=data);
   }
 
   eliminarContacto(telefono:string):void{
