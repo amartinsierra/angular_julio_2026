@@ -1,0 +1,95 @@
+import { Component, computed, effect, signal } from '@angular/core';
+import { form, required, minLength, email, pattern, validate, FormField } from '@angular/forms/signals';
+import { MatDialog } from '@angular/material/dialog';
+import { RouterOutlet } from '@angular/router';
+import { CuadroDialogo } from './ui/cuadro-dialogo/cuadro-dialogo';
+
+@Component({
+  selector: 'app-root',
+  imports: [FormField],
+  templateUrl: './app.html',
+  styleUrl: './app.css',
+})
+export class App {
+  error:boolean=false;
+    //inicialización de controles
+    model = signal({
+      usuario: '',
+      email: '',
+      password: '',
+      telefono: '',
+      profesional: false,
+      instagram: ''
+    });
+
+  formClients = form(this.model, (p) => {
+    required(p.usuario);
+   // minLength(p.usuario, 3);
+
+    required(p.email);
+    email(p.email);
+
+    required(p.password);
+    minLength(p.password, 6);
+
+    required(p.telefono);
+    pattern(p.telefono, /^[0-9]{9}$/);
+
+    required(p.instagram, {
+      when: ({ valueOf }) => valueOf(p.profesional)
+      //si hubiera importado valueOf, lo anterior sería equivalente a:
+      //when: ()=>valueOf(p.profesional)
+    });
+
+    validate(p.instagram, ({ value, valueOf }) => {
+      if (!valueOf(p.profesional)) {
+        return undefined;
+      }
+
+      let instagram = value()?.trim();
+      if (!instagram) {
+        return undefined;
+      }
+
+      if (instagram.includes('@')) {
+        return undefined;
+      }
+
+      return {
+        kind: 'invalido',
+        message: 'Debe incluir una @'
+      };
+    });
+  });
+
+  private readonly usuarioValue = computed(() => this.model().usuario);
+
+  constructor(private dialog:MatDialog) {
+    effect(() => {
+      const usuario = this.usuarioValue();
+      //actualiza el campo el email con el valor del usuario en caso de qe sean diferentes
+      this.model.update(prev => ({...prev, email:usuario }));
+    });
+  }
+  formInvalid = computed(() => {
+    return (
+      this.formClients.usuario().invalid() ||
+      this.formClients.email().invalid() ||
+      this.formClients.password().invalid() ||
+      this.formClients.telefono().invalid() ||
+      this.formClients.instagram().invalid()
+    );
+  });
+
+
+  procesar():void{
+    if(this.formInvalid()){
+      this.error=true;
+      //alert("Formulario no válido!");
+      this.dialog.open(CuadroDialogo,{data:{titulo:"Error",mensaje:"formulario no válido"}});
+    }else{
+      this.dialog.open(CuadroDialogo,{data:{titulo:"Info",mensaje:"formulario correcto"}});
+    }
+  }
+
+}
