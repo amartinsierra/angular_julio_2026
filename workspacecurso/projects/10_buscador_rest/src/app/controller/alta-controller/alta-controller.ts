@@ -13,10 +13,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class AltaController {
   item=signal<Item>({"url":"","tematica":"","descripcion":""});
-
+  error:boolean=false;
   constructor(private buscadorService:BuscadorService){}
 
-  guardar(){
+  guardar(form:any){
+    if(form.invalid){
+      this.error=true;
+      alert("El formaulario no es válido")
+      return;
+    }
 
     this.buscadorService.altaItem(this.item())
     .subscribe({

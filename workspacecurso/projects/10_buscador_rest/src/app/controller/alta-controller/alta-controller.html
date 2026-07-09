@@ -1,23 +1,48 @@
 <div class="container">
 
     <H1>Formulario para nuevos items</H1>
-
+  <form #f="ngForm" (ngSubmit)="guardar(f)">
       Introduce url:<input type="text"
+                    #url="ngModel"
+                    name="url"
+                    required
                     [ngModel]="item().url"
                     (ngModelChange)="item.update(c => ({ ...c, url: $event }))"
                     ><br>
+                    @if(url.invalid&&error){
+                      <small>Es obligatorio incluir una URL</small>
+                    }
+
       <br>
       Introduce temática:<input type="text"
+                        #tematica="ngModel"
+                        required
+                        name="tematica"
                         [ngModel]="item().tematica"
                         (ngModelChange)="item.update(c => ({ ...c, tematica: $event }))"
                         ><br>
+                        @if(tematica.invalid&&error){
+                           <small>Es obligatorio incluir una temática</small>
+                        }
       <br>
       Introduce descripción:<input type="text"
+                            #descripcion="ngModel"
+                            required
+                            name="descripcion"
+                            minlength="10"
                             [ngModel]="item().descripcion"
                             (ngModelChange)="item.update(c => ({ ...c, descripcion: $event }))"
                            ><br>
+                           @if(descripcion.invalid&&error){
+                            @if(descripcion.errors['required']){
+                              <small>Es obligatorio incluir una descripción</small>
+                            }
+                            @if(descripcion.errors['minlength']){
+                              <small>La descripción debe tener al menos 10 caracteres</small>
+                            }
+                           }
       <br>
-      <input type="button"  value="Guardar" (click)="guardar()"><br>
-  
+      <input type="submit"  value="Guardar"><br>
+  </form>
 
 </div>

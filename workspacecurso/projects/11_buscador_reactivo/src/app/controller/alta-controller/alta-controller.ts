@@ -1,0 +1,55 @@
+import { Component, signal } from '@angular/core';
+import { Item } from '../../model/Item';
+
+import { BuscadorService } from '../../service/buscador-service';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { validadorUrl } from '../../validadores/ValidarUrl';
+
+
+@Component({
+  selector: 'app-alta-controller',
+  imports: [ReactiveFormsModule],
+  templateUrl: './alta-controller.html',
+  styleUrl: './alta-controller.css',
+})
+export class AltaController {
+  error:boolean=false;
+  altaForm = new FormGroup({
+    url: new FormControl('', [Validators.required,validadorUrl]),
+    tematica: new FormControl('', [Validators.required]),
+    descripcion: new FormControl('', [Validators.required, Validators.minLength(10)])
+  });
+  constructor(private buscadorService:BuscadorService){
+    //permite que el control descripción se rellene automáticamente con el contenido de la url
+    this.altaForm.get("url").valueChanges
+    .subscribe(v=>this.altaForm.get("descripcion").setValue(v));
+    //para temática de libros la descripción no puede superar los 20 caracteres
+    this.altaForm.get("tematica").valueChanges
+    .subscribe(v=>{
+
+      if(v=="libros"){
+        this.altaForm.get("descripcion").addValidators(Validators.maxLength(20));
+      }else{
+        this.altaForm.get("descripcion").clearValidators();
+        this.altaForm.get("descripcion").addValidators([Validators.required, Validators.minLength(10)]);
+      }
+      this.altaForm.get("descripcion").updateValueAndValidity();
+    })
+
+  }
+
+  guardar(){
+    if(this.altaForm.invalid){
+      this.error=true;
+      alert("El formaulario no es válido")
+      return;
+    }
+    let form=this.altaForm.value;
+    let item:Item={url:form.url,tematica:form.tematica,descripcion:form.descripcion};
+    this.buscadorService.altaItem(item)
+    .subscribe({
+      next:data=>alert("Nuevo elemento almacenado"),
+      error:err=> alert("No se pudo añadir, URL repetida")
+    });
+  }
+}

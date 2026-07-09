@@ -1,0 +1,47 @@
+<div class="container">
+
+    <H1>Formulario para nuevos items</H1>
+  <form [formGroup]="altaForm" (ngSubmit)="guardar()">
+      Introduce url:<input type="text"
+                    formControlName="url"
+                    name="url"
+                    ><br>
+                    @if(altaForm.get("url").invalid&&error){
+                      @if(altaForm.get("url").hasError('required')){
+                          <small>Es obligatorio incluir una URL</small>
+                      }
+                      @if(altaForm.get("url").hasError('errorUrl')){
+                          <small>{{altaForm.get("url").errors['errorUrl']}}</small>
+                      }
+
+                    }
+
+      <br>
+      Introduce temática:<input type="text"
+                        formControlName="tematica"
+                        name="tematica"
+                        ><br>
+                        @if(altaForm.get("tematica").invalid&&error){
+                           <small>Es obligatorio incluir una temática</small>
+                        }
+      <br>
+      Introduce descripción:<input type="text"
+                            formControlName="descripcion"
+                            name="descripcion"
+                           ><br>
+                           @if(altaForm.get("descripcion").invalid&&error){
+                            @if(altaForm.get("descripcion").hasError('required')){
+                              <small>Es obligatorio incluir una descripción</small>
+                            }
+                            @if(altaForm.get("descripcion").hasError('minlength')){
+                              <small>La descripción debe tener al menos 10 caracteres</small>
+                            }
+                            @if(altaForm.get("descripcion").hasError('maxlength')){
+                              <small>La descripción no puede superar los 20 caracteres</small>
+                            }
+                           }
+      <br>
+      <input type="submit"  value="Guardar"><br>
+  </form>
+
+</div>
