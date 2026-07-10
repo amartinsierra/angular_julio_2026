@@ -798,6 +798,93 @@
           "builder": "@angular/build:unit-test"
         }
       }
+    },
+    "15_proyecto_alumnos": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/15_proyecto_alumnos",
+      "sourceRoot": "projects/15_proyecto_alumnos/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/15_proyecto_alumnos/src/main.ts",
+            "tsConfig": "projects/15_proyecto_alumnos/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/15_proyecto_alumnos/public"
+              }
+            ],
+            "styles": ["projects/15_proyecto_alumnos/src/styles.css"]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "15_proyecto_alumnos:build:production"
+            },
+            "development": {
+              "buildTarget": "15_proyecto_alumnos:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    },
+    "ui-compartido": {
+      "projectType": "library",
+      "root": "projects/ui-compartido",
+      "sourceRoot": "projects/ui-compartido/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ui-compartido/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ui-compartido/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ui-compartido/tsconfig.spec.json"
+          }
+        }
+      }
     }
   }
 }
