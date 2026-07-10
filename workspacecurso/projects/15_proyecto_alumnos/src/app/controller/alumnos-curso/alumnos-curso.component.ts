@@ -8,17 +8,18 @@ import { CommonModule } from '@angular/common';
 
 import { MatDialog } from '@angular/material/dialog';
 import { Dialogo } from '../../ui/dialogo/dialogo';
+import { CalificacionPipe } from "../../pipes/calificacion-pipe";
 
 
 @Component({
   selector: 'app-alumnos-curso',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, CalificacionPipe],
   templateUrl: './alumnos-curso.component.html',
   styleUrl: './alumnos-curso.component.css'
 })
 export class AlumnosCursoComponent {
-  protected cursos=signal<string[]>([]);
-  protected alumnosPorCurso=signal<Alumno[]>([]);
+  cursos=signal<string[]>([]);
+  alumnosPorCurso=signal<Alumno[]>([]);
 
   constructor(private alumnosService: AlumnosService,private dialog:MatDialog) { }
   ngOnInit(): void {

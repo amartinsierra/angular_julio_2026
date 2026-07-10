@@ -11,5 +11,5 @@ export function validadorCurso(control: AbstractControl): ValidationErrors | nul
   if(!value.toLowerCase().includes("avanzado")){
     return null; //si es válido, se debe devolver null
   }
-  return {invalido:true}; //si no es válido, se devuelve un objeto
+  return {errorAvanzado:"No puede contener la palabra avanzado"}; //si no es válido, se devuelve un objeto
 }

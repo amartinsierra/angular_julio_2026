@@ -1,9 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
-import { PaisesService } from './paises.service';
-import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { PaisesService } from './paises.service';
+import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+
+
 
 describe('PaisesService', () => {
   let service: PaisesService;
@@ -23,8 +24,8 @@ describe('PaisesService', () => {
   it('debería obtener países', async () => {
 
     const mockPaises = [
-      { name: { common: 'España' }, region: 'Europe', population: 47000000, flags: {} },
-      { name: { common: 'Francia' }, region: 'Europe', population: 67000000, flags: {} }
+      { name: 'España' , region: 'Europe', population: 47000000, flags: {} },
+      { name: 'Francia' , region: 'Europe', population: 67000000, flags: {} }
     ];
 
     const promise = firstValueFrom(service.getPaises());
@@ -39,6 +40,7 @@ describe('PaisesService', () => {
 
     expect(resultado.length).toBe(2);
   });
+
   it('debería obtener continentes únicos', async () => {
 
     const mockPaises = [
@@ -56,15 +58,15 @@ describe('PaisesService', () => {
     const resultado = await promise;
 
     expect(resultado.length).toBe(2);
-    expect(resultado['Europe']).toBe(true);
-    expect(resultado['Asia']).toBe(true);
+    expect(resultado[0]).toBe("Europe");
+    expect(resultado[1]).toBe("Asia");
   });
   it('debería obtener países por continente', async () => {
 
     const mockPaises = [
-      { name: { common: 'España' }, region: 'Europe', population: 47000000, flags: {} },
-      { name: { common: 'Francia' }, region: 'Europe', population: 67000000, flags: {} },
-      { name: { common: 'Canada' }, region: 'America', population: 3343434, flags: {} }
+      { name: 'España', region: 'Europe', population: 47000000, flags: {} },
+      { name:  'Francia' , region: 'Europe', population: 67000000, flags: {} },
+      { name:  'Canada' , region: 'America', population: 3343434, flags: {} }
     ];
 
     const promise = firstValueFrom(service.getPaisesContinente("Europe"));
@@ -77,5 +79,7 @@ describe('PaisesService', () => {
     const resultado = await promise;
 
     expect(resultado.length).toBe(2);
+    expect(resultado[0].name).toBe("España");
+    expect(resultado[1].population).toBe(67000000);
   });
 });
